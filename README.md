@@ -1,6 +1,8 @@
-# docker-wordpress-nginx
+# docker-wordpress-nginx-wordless
 
-A Dockerfile that installs the latest wordpress, nginx, php-apc and php-fpm.
+This is a fork of eugeneware's [docker-wordpress-nginx](https://github.com/eugeneware/docker-wordpress-nginx), adding automatic support for [Wordless](https://github.com/welaika/wordless).
+
+A Dockerfile that installs the latest wordpress, nginx, php-apc, php-fpm, rvm, ruby, wordless, and a bunch of gems.
 
 NB: A big thanks to [jbfink](https://github.com/jbfink/docker-wordpress) who did most of the hard work on the wordpress parts!
 
