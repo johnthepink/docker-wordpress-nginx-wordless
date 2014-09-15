@@ -58,3 +58,23 @@ EXPOSE 3306
 EXPOSE 80
 
 CMD ["/bin/bash", "/start.sh"]
+
+# rvm install
+RUN \curl -L https://get.rvm.io | bash -s stable --autolibs=enabled
+ENV PATH /usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN /bin/bash -l -c "rvm requirements"
+
+# ruby install
+RUN /bin/bash -l -c "rvm install 2.1.2"
+RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
+
+# wordless gem and dependencies
+RUN /bin/bash -l -c "rvm use 2.1.2@wordless --create --default"
+RUN /bin/bash -l -c "gem install therubyracer sprockets compass coffee-script thor yui-compressor wordless --no-ri --no-rdoc"
+RUN /bin/bash -l -c "rvm wrapper 2.1.2@wordless wordless compass ruby"
+
+# install wordless plugin
+RUN /bin/bash -l -c "cd /usr/share/nginx/www && wordless install"
+
+# create wordless wordpress theme
+RUN /bin/bash -l -c "cd /usr/share/nginx/www/wp-content/themes && wordless theme wordless"
