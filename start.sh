@@ -53,5 +53,11 @@ ENDL
   killall mysqld
 fi
 
+# set the theme to the server's user
+chown -R www-data:www-data /wordless
+# symlink the theme 
+ln -s /wordless /usr/share/nginx/www/wp-content/themes
+
 # start all the services
 /usr/local/bin/supervisord -n
+

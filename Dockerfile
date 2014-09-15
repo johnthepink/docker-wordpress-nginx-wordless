@@ -49,15 +49,9 @@ RUN rm -rf /usr/share/nginx/www
 RUN mv /usr/share/nginx/wordpress /usr/share/nginx/www
 RUN chown -R www-data:www-data /usr/share/nginx/www
 
-# Wordpress Initialization and Startup Script
-ADD ./start.sh /start.sh
-RUN chmod 755 /start.sh
-
 # private expose
 EXPOSE 3306
 EXPOSE 80
-
-CMD ["/bin/bash", "/start.sh"]
 
 # rvm install
 RUN \curl -L https://get.rvm.io | bash -s stable --autolibs=enabled
@@ -76,5 +70,12 @@ RUN /bin/bash -l -c "rvm wrapper 2.1.2@wordless wordless compass ruby"
 # install wordless plugin
 RUN /bin/bash -l -c "cd /usr/share/nginx/www && wordless install"
 
-# create wordless wordpress theme
-RUN /bin/bash -l -c "cd /usr/share/nginx/www/wp-content/themes && wordless theme wordless"
+# add wordless theme volume
+VOLUME ["/wordless"]
+
+# Wordpress Initialization and Startup Script
+ADD ./start.sh /start.sh
+RUN chmod 755 /start.sh
+
+CMD ["/bin/bash","/start.sh"]
+
